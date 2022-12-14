@@ -2,7 +2,8 @@
 
 
 ## *Observerパターン*
-### ObserverクラスにSubjectクラスの変更の通知するパターン。
+### 概要
+ObserverクラスにSubjectクラスの変更の通知するパターン。
 * 説明
 
 * 概略図
