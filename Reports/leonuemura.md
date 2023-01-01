@@ -1,1 +1,1 @@
-#Prototype パターン
+# Prototype パターン
