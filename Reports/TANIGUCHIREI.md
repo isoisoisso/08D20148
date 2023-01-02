@@ -5,9 +5,10 @@
 振る舞いに関するパターンの一つで、オブジェクト間の相互作用に関係する。
 処理をVisitorオブジェクトに記述することで処理の追加を簡単にする。
 また処理対象のAccepterオブジェクトはacceptメソッドを実装している必要がある。
-Visitorパターンを佼成するクラスとして、以下のVisitor, ConcreteVisitor,Acceptor, ConcreteAcceptor,Clientがある。
-###　　Visitorパターンを構成するクラス
-####　Visitorクラス
+
+### Visitorパターンを構成するクラス
+Visitorパターンを構成するクラスとして、以下のVisitor, ConcreteVisitor,Acceptor, ConcreteAcceptor,Clientがある。
+#### Visitorクラス
 具体的なデータ構造の要素毎に訪問して行う処理のインターフェースを定義する。
 訪問先要素の方に応じた処理はvisitメソッドを用いて指定する。
 #### ConcreteVisitorクラス
