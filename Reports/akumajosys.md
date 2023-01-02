@@ -39,7 +39,7 @@ classDiagram
 Strategyパターンに関して本質的でないクラスやコードは省略する．メソッドの引数・返り値の型は仮にvoid型とする．
 ### Strategyインターフェース
 
-```Java
+```Java:Strategy.java
 public interface Strategy {
     public abstract void strategyMethod();
 }
