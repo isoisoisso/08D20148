@@ -7,6 +7,38 @@
 
 * 概略図
 
+```mermaid
+classDiagram
+    class Subject{
+        <<interface>>
+        observers
+        addObserver()*
+        deleteObserver()*
+        notifyObservers()*
+        updateStatus()*
+    }
+    class ConcreteSubject{
+        addObserver()
+        deleteObserver()
+        notifyObservers()
+        updateStatus()
+    }
+    class Observer{
+        <<interface>>
+        update()*
+    }
+    class ConcreteObserverA{
+        update()
+    }
+    class ConcreteObserverB{
+        update()
+    }
+    Observer <|-- ConcreteObserverA : implements
+    Observer <|-- ConcreteObserverB : implements
+    Subject <|-- ConcreteSubject : implements
+    Subject o--"*" Observer : Notifies
+```
+
 ### 事例１
 * サンプルケース
 
@@ -26,6 +58,32 @@
 * 説明
 
 * 概略図
+
+```mermaid
+classDiagram
+    class Component{
+        <<abstract>>
+        method()*
+    }
+    class ConcreteComponent{
+        method()
+    }
+    class Decorator{
+        <<abstract>>
+        component
+        method()*
+    }
+    class ConcreteDecoratorA{
+        method()
+    }
+    class ConcreteDecoratorB{
+        method()
+    }
+    Decorator <|-- ConcreteDecoratorA : implements
+    Decorator <|-- ConcreteDecoratorB : implements
+    Component <|-- ConcreteComponent : implements
+    Decorator o--|> Component
+```
 
 ### 事例１
 * サンプルケース
