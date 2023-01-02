@@ -89,7 +89,7 @@ class Strategy {
     public:
         virtual void strategyMethod(void) = 0;
         virtual ~strategyMethod() {}; // デストラクタ
-}
+};
 ```
 
 ### ConcreteStrategyAクラス
@@ -101,7 +101,7 @@ class ConcreteStrategyA : public Strategy {
         void strategyMethod(void) {
             // 略
         }
-}
+};
 ```
 
 ### ConcreteStrategyBクラス
@@ -113,7 +113,7 @@ class ConcreteStrategyB : public Strategy {
         void strategyMethod(void) {
             // 略
         }
-}
+};
 ```
 
 ### Contextクラス
@@ -128,7 +128,7 @@ class Context {
         Context(Strategy strategy) {
             this.strategy = strategy;
         }
-}
+};
 ```
 
 ## 参考文献
