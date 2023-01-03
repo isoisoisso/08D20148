@@ -136,8 +136,73 @@ classDiagram
 ### 事例１
 * サンプルケース
 
+単語帳のページのように、特定の文字列を保持するオブジェクトを大量に作成する場合。
+
 * サンプルコード
 
+```python
+from abc import ABCMeta, abstractmethod
+
+class Product(metaclass=ABCMeta):
+    @abstractmethod
+    def use(self):
+        pass
+
+class Factory(metaclass=ABCMeta):
+    def create(self, data):
+        ret = self.factoryMethod(data)
+        return ret
+
+    @abstractmethod
+    def factoryMethod(self, data):
+        pass
+
+# ConcreteFactory
+class NotepadProduct1(Product):
+    def __init__(self, data):
+        self.data = data
+        print(f"Recorded: {self.data}")
+
+    def use(self):
+        print(f"Note1 says: {self.data}")
+
+class NotepadProduct2(Product):
+    def __init__(self, data):
+        self.data = data
+        print(f"Recorded: {self.data}")
+
+    def use(self):
+        print(f"Note2 says: {self.data}")
+
+# ConcreteProduct
+class NotepadFactory1(Factory):
+    def factoryMethod(self, data):
+        return NotepadProduct1(data)
+
+class NotepadFactory2(Factory):
+    def factoryMethod(self, data):
+        return NotepadProduct2(data)
+
+
+if __name__ == "__main__":
+    factory1 = NotepadFactory1()
+    factory2 = NotepadFactory2()
+    note1 = factory1.create("hoge")
+    note2 = factory1.create("fuga")
+    note3 = factory2.create("piyo")
+    note1.use()
+    note2.use()
+    note3.use()
+```
+```sh
+$ python3 factory_method_sample_1.py
+Recorded: hoge
+Recorded: fuga
+Recorded: piyo
+Note1 says: hoge
+Note1 says: fuga
+Note2 says: piyo
+```
 ### 事例２
 * サンプルケース
 
