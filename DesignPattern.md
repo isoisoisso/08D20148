@@ -125,9 +125,9 @@ classDiagram
     class ConcreteProductA{
 
     }
-    Product -- Factory : creates▶
-    ConcreteProductA -- ConcreteFactory : creates▶
-    ConcreteProductB -- ConcreteFactory : creates▶
+    Factory -- Product : creates▶
+    ConcreteFactory -- ConcreteProductA : creates▶
+    ConcreteFactory -- ConcreteProductB : creates▶
     Factory <|-- ConcreteFactory : implements
     Product <|-- ConcreteProductA : implements
     Product <|-- ConcreteProductB : implements
