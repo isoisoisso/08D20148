@@ -106,6 +106,33 @@ classDiagram
 
 * 概略図
 
+```mermaid
+classDiagram
+    class Factory{
+      <<abstract>>
+      anOperation()*
+      factoryMethod():Product*
+    }
+    class Product{
+      <<abstract>>
+    }
+    class ConcreteFactory{
+      factoryMethod():Product
+    }
+    class ConcreteProductA{
+
+    }
+    class ConcreteProductA{
+
+    }
+    Factory -- Product : creates▶
+    ConcreteFactory -- ConcreteProductA : creates▶
+    ConcreteFactory -- ConcreteProductB : creates▶
+    Factory <|-- ConcreteFactory : implements
+    Product <|-- ConcreteProductA : implements
+    Product <|-- ConcreteProductB : implements
+```
+
 ### 事例１
 * サンプルケース
 
@@ -258,5 +285,3 @@ classDiagram
 * サンプルコード
 
 ### その他（注意事項など，なんでも）
-
-
