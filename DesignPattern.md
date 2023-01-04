@@ -40,9 +40,93 @@ classDiagram
 ```
 
 ### 事例１
-* サンプルケース
+* サンプルケース  
+数字を変更したときに  
+・数字を表示する画面  
+・数字をグラフとして表示する画面  
+の二つの画面を同時に変更する場合。
 
-* サンプルコード
+* サンプルコード  
+・python  
+```python
+def main():
+    m = ConcreteModel()
+    m.add_observer(NumView())
+    m.add_observer(ExcelView())
+    for i in [5, 10, 15]:
+        m.num = i
+
+
+# Subject
+class Model:
+    def __init__(self):
+        self.__observers = []
+        self.__num = None
+
+    def add_observer(self, observer):
+        self.__observers.append(observer)
+
+    def notify_observer(self):
+        for observer in self.__observers:
+            observer.update(self)
+
+
+# ConcreteSubject
+class ConcreteModel(Model):
+    def __init__(self):
+        super().__init__()
+
+    @property
+    def num(self):
+        return self.__num
+
+    @num.setter
+    def num(self, num):
+        self.__num = num
+        self.notify_observer()  # important point
+
+
+class Observer:
+    def __init__(self):
+        pass
+
+    def update():
+        pass
+
+
+# ConcreteObserver1
+class NumView(Observer):
+    def __init__(self):
+        pass
+
+
+    def update(self, model):
+        s = "NView: {}".format(model.num)
+        print(s)
+
+
+# ConcreteObserver2
+class ExcelView(Observer):
+    def __init__(self):
+        pass
+
+    def update(self, model):
+        s = "EView: {}".format("*" * model.num)
+        print(s)
+
+
+if __name__ == "__main__":
+    main()
+```
+・出力
+```python
+NView: 5
+EView: *****
+NView: 10
+EView: **********
+NView: 15
+EView: ***************
+```
 
 ### 事例２
 * サンプルケース
@@ -56,6 +140,8 @@ classDiagram
 ## *Decoratorパターン*
 ### 概要
 * 説明
+* オブジェクトを装飾するためのクラスを作る。
+* 既存のオブジェクトに動的に処理を追加することができる。
 
 * 概略図
 
@@ -136,19 +222,23 @@ classDiagram
 ### 事例１
 * サンプルケース
 
-単語帳のページのように、特定の文字列を保持するオブジェクトを大量に作成する場合。
+メモ帳のページのように、特定の文字列を保持するオブジェクトを大量に作成する場合。
 
 * サンプルコード
 
+以下はこのサンプルケースを実装するPythonプログラムの例である。
 ```python
 from abc import ABCMeta, abstractmethod
 
+# abstract
 class Product(metaclass=ABCMeta):
     @abstractmethod
     def use(self):
         pass
 
+# abstract
 class Factory(metaclass=ABCMeta):
+    # anOperation
     def create(self, data):
         ret = self.factoryMethod(data)
         return ret
@@ -194,6 +284,8 @@ if __name__ == "__main__":
     note2.use()
     note3.use()
 ```
+
+出力結果は次の通りである。
 ```sh
 $ python3 factory_method_sample_1.py
 Recorded: hoge
