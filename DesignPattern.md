@@ -220,19 +220,23 @@ classDiagram
 ### 事例１
 * サンプルケース
 
-単語帳のページのように、特定の文字列を保持するオブジェクトを大量に作成する場合。
+メモ帳のページのように、特定の文字列を保持するオブジェクトを大量に作成する場合。
 
 * サンプルコード
 
+以下はこのサンプルケースを実装するPythonプログラムの例である。
 ```python
 from abc import ABCMeta, abstractmethod
 
+# abstract
 class Product(metaclass=ABCMeta):
     @abstractmethod
     def use(self):
         pass
 
+# abstract
 class Factory(metaclass=ABCMeta):
+    # anOperation
     def create(self, data):
         ret = self.factoryMethod(data)
         return ret
@@ -278,6 +282,8 @@ if __name__ == "__main__":
     note2.use()
     note3.use()
 ```
+
+出力結果は次の通りである。
 ```sh
 $ python3 factory_method_sample_1.py
 Recorded: hoge
