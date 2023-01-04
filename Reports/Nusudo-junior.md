@@ -14,27 +14,26 @@ Originatorの内部情報を保持するクラス．
 Mementoを保持するクラス．Mementoを保持するタイミング，アンドゥするタイミングも保持する．
 
 ## クラス図
-```plantuml
-@startuml
-class Originator{
-  - state
-  --
-  + createMemento() : Memento //Mementoオブジェクトを生成し返す
-  + SetMemento(Memento) : void //引数のMementoのstateを、属性stateにセット
-}
-class Memento{
-  - state
-  --
-  + GetState()
-  + SetState()
-}
-class CareTaker{
-  - mementoList : Memento
-}
-Originator -d-> Memento : creates >
-CareTaker o-u-> Memento
-CareTaker -d-> Originator : request >
-@enduml
+```mermaid
+
+classDiagram
+  class Originator{
+    - state
+    + createMemento() : Memento //Mementoオブジェクトを生成し返す
+    + SetMemento(Memento) : void //引数のMementoのstateを、属性stateにセット
+  }
+
+  class Memento{
+    - state
+    + GetState()
+    + SetState()
+  }
+  class CareTaker{
+    - mementoList : Memento
+  }
+Originator --> Memento : creates
+CareTaker o--> Memento
+CareTaker --> Originator : request
 ```
 
 ## 長所及び短所
