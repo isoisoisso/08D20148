@@ -364,10 +364,10 @@ classDiagram
       <<abstract>>
     }
     class ConcreteProduct1{
-        
+
     }
     class ConcreteProduct2{
-        
+
     }
     ConcreteFactory -- ConcreteProduct1 : creates▶
     ConcreteFactory -- ConcreteProduct2 : creates▶
@@ -417,18 +417,18 @@ public:
     }
 
 protected:
-    Singleton() {} 
+    Singleton() {}
     virtual ~Singleton() {}
 
 private:
-    void operator=(const Singleton& obj) {} 
-    Singleton(const Singleton &obj) {} 
+    void operator=(const Singleton& obj) {}
+    Singleton(const Singleton &obj) {}
 };
 
 class FileManager : public Singleton<FileManager>
 {
 public:
-    friend class Singleton<FileManager>; 
+    friend class Singleton<FileManager>;
 
 public:
     bool FileExists(const char* strName) const;
@@ -436,7 +436,7 @@ public:
     bool CloseFile(File* pFile);
 
 protected:
-    FileManager(); 
+    FileManager();
     virtual ~FileManager();
 };
 
@@ -498,6 +498,20 @@ print
 * スーパークラスで処理手順の枠組みを決める．その手順で利用するメソッドを抽象メソッドで定義し，サブクラスで具体的な処理を実装する．
 
 * 概略図
+```mermaid
+classDiagram
+    class ConcreteClass{
+      primitiveOperation1()
+      primitiveOperation2()
+    }
+    class AbstractClass{
+      <<abstract>>
+      templateMethod()
+      primitiveOperation1()
+      primitiveOperation2()
+    }
+    AbstractClass <|-- ConcreteClass
+```
 
 ### 事例１
 * サンプルケース
@@ -553,7 +567,7 @@ classDiagram
       <<abstract>>
       operation()
     }
-    
+
     Component <|-- Composite : implements
     Component <|-- Leaf : implements
     Composite <|-- Component : genelization
