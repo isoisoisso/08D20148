@@ -515,10 +515,14 @@ classDiagram
 
 ### 事例１
 * サンプルケース
+
 文字・文字列を5回繰り返し表示するケース。
 さらに、単語は"*"で、文字列は枠線で囲って表示する。
+
 * サンプルコード
+
 このサンプルケースをPythonで実行する場合のサンプルコードをいかに示す。
+
 ・templatemethod/display.py
 ```python
 #AbstractClass
