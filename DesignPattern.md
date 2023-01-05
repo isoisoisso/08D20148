@@ -397,6 +397,15 @@ classDiagram
 
 * 概略図
 
+```mermaid
+classDiagram
+　　class Singleton{
+         -Singleton
+         -Singleton()
+         +getInstance()
+　　}
+```
+
 ### 事例１
 * サンプルケース
 
@@ -458,6 +467,58 @@ protected:
 
 * 概略図
 
+- 継承(is a 関係)を利用した方法
+```mermaid
+classDiagram
+     class Client{
+
+     }
+     class Target{
+          <<interface>>
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adapter{
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adaptee{
+          methodA()
+          methodB()
+          methodC()
+     }
+     Client --> Adapter : Creates▶
+     Client --> Target : Uses▶
+     Adapter ..|> Target : implements▶
+     Adapter --|> Adaptee : extends▶
+```
+
+- 委譲(has a 関係)を利用した方法
+```mermaid
+classDiagram
+     class Client{
+
+     }
+     class Target{
+          <<interface>>
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adapter{
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adaptee{
+          methodA()
+          methodB()
+          methodC()
+     }
+     Client --> Adapter : Creates▶
+     Client --> Target : Uses▶
+     Adapter --|> Target : extends▶
+     Adapter *--|> Adaptee : has▶
+```
+
 ### 事例１
 * サンプルケース
 print
@@ -478,6 +539,35 @@ print
 * 複雑な内部処理を隠蔽し，利用者にシンプルなインターフェースを提供する．
 
 * 概略図
+
+```mermaid
+classDiagram
+　　class Client{
+
+　　}
+    class Facade{
+
+    }
+    class A{
+
+    }
+    class B{
+
+    }
+    class C{
+
+    }
+    class D{
+
+    }
+    Client --> Facade: Uses▶
+    Facade -- A
+    Facade -- B
+    A -- C
+    A -- D
+    B -- C
+    C -- D
+```
 
 ### 事例１
 * サンプルケース
