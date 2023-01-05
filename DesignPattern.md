@@ -172,9 +172,44 @@ classDiagram
 ```
 
 ### 事例１
-* サンプルケース
+* サンプルケース  
+平均値を計算するmean関数に対して,与えられた引数が文字列の型であっても計算できるようにDecorateする.
 
-* サンプルコード
+* サンプルコード  
+・python
+```python
+import functools
+
+
+def main():
+    print(mean("0.1", 0.2, "0.3"))
+
+
+# Decorateする関数
+def float_args_and_return(function):
+    @functools.wraps(function)
+    def wrapper(*args, **kargs):
+        args = [float(arg) for arg in args]
+        return function(*args, **kargs)
+    return wrapper
+
+
+# Decorateされる関数
+@float_args_and_return
+def mean(first, second, *rest):
+    numbers = (first, second) + rest
+    return sum(numbers) / len(numbers)
+
+
+if __name__ == "__main__":
+    main()
+
+```
+
+* 出力
+```python
+0.20000000000000004
+```
 
 ### 事例２
 * サンプルケース
@@ -310,6 +345,38 @@ Note2 says: piyo
 具体的な実装はサブクラスで行う．
 
 * 概略図
+
+```mermaid
+classDiagram
+    class AbstractFactory{
+      <<abstract>>
+      getProduct1()*
+      getProduct2():*
+    }
+    class ConcreteFactory{
+      getProduct1()
+      getProduct2():
+    }
+    class AbstractProduct1{
+      <<abstract>>
+    }
+    class AbstractProduct2{
+      <<abstract>>
+    }
+    class ConcreteProduct1{
+        
+    }
+    class ConcreteProduct2{
+        
+    }
+    ConcreteFactory -- ConcreteProductA : creates▶
+    ConcreteFactory -- ConcreteProductB : creates▶
+    AbstractFactory -- AbstractProductA : creates▶
+    AbstractFactory -- AbstractProductB : creates▶
+    AbstractFactory <|-- ConcreteFactory : implements
+    AbstractProduct1 <|-- ConcreteProduct1 : implements
+    AbstractProduct2 <|-- ConcreteProduct2 : implements
+```
 
 ### 事例１
 * サンプルケース
