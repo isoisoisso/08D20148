@@ -460,6 +460,7 @@ protected:
 
 ### 事例１
 * サンプルケース
+print
 
 * サンプルコード
 
@@ -537,7 +538,26 @@ protected:
 * オブジェクトの関係性に関するパターンである。ファイルシステムのような木構造を持つ再帰的なデータ構造に関して、全体像と個別のオブジェクトに同一の操作を可能にする。
 
 * 概略図
-
+```mermaid
+classDiagram
+    class Composite {
+      operation()*
+      add()
+      remove()
+      getChild
+    }
+    class Leaf{
+      operation()
+    }
+    class Component{
+      <<abstract>>
+      operation()
+    }
+    
+    Component <|-- Composite : implements
+    Component <|-- Leaf : implements
+    Composite <|-- Component : genelization
+```
 ### 事例１
 * サンプルケース
 
