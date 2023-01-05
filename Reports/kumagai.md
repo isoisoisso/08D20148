@@ -2,20 +2,20 @@
 ## Visitor パターン
 
 Visitorパターンでは,任意の処理を訪問者であるVIsitorオブジェクトに追加することで,処理の追加を単純化する.
-すなわち,Visitorに処理を一任しているため,受け入れる側にはVisitorに合わせた処理を追加する必要がないパターンである.
+すなわち,Visitorに処理を一任しているため,受け入れる側にはVisitorに合わせた処理を追加する必要がないパターンである.  
 
 ## Visitorパターンのクラス図
 visitorパターンにおけるクラス図の概略を以下に示す.
 Visitorパターンでは大きく4種類のクラス及びインターフェースに分類されている.
 
-1. Visitor(インターフェース)
+1. *Visitor(インターフェース)*  
 具体的なデータ構造の要素それぞれに対して,訪問し行う処理(visitメソッド)のインターフェースを定義する.
-2. ConcreteVisitor(クラス)
+2. *ConcreteVisitor(クラス)*  
 1のVisitorで定義したインターフェース(各visitメソッド)を実装する.
 この時のVisitメソッドは,Acceptorを引数にしている.
-3. Acceptor(インターフェース)
+3. *Acceptor(インターフェース)*  
 Visitorの訪問先であるデータ構造要素に対して,受け入れ窓口(acceptメソッド)のインターフェースを定義する.
-4. ConcreteAcceptor(クラス)
+4. *ConcreteAcceptor(クラス)*  
 Acceptorで定義したインターフェース(acceptメソッド)を実装する.
 ここでは,引数VisitorのVisitメソッドを実行するような実装をしている.
 
@@ -58,9 +58,11 @@ classDiagram
 ```
 
 # 事例１
-- サンプルケース
-
-- サンプルコード - python
+- *サンプルケース*  
+２人の人物"Aさん"と"Bさん"が,それぞれデパート/会社に行くという場合を考える.
+この時,Acceptorは会社およびデパートであり,VisitorがAさん及びBさんである.
+たとえば「Aさんがデパートに行った時は買い物をする」という処理を追加したいときには,VisitorAクラスのvisit(Depart)という関数に買い物をするという処理を追加するだけで済み,デパートクラスを変更する必要はない.
+- *サンプルコード* - python
 
 ```python
 from abc import ABCMeta, abstractmethod
@@ -139,7 +141,7 @@ if __name__ == "__main__":
 
  - 出力
 ```python
-(base) kumagai@kumagairuinoMacBook-Air SELecture2022_GitReport % python test.py
+% python test.py
 Aさん が Company を訪れました。
 Bさん が Company を訪れました。
 Aさん が Depart を訪れました。
