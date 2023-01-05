@@ -400,7 +400,48 @@ classDiagram
 ### 事例１
 * サンプルケース
 
+リソースの削減や多重アクセス防止のために、ただ1つのインスタンスとしてファイルマネージャを作成したい場合。
+
 * サンプルコード
+
+ファイルマネージャがシングルトンを継承することでサンプルケースを実装した。以下は、c++で実装したサンプルコードである。
+```cpp
+template<class T>
+class Singleton
+{
+public:
+    static inline T& GetInstance()
+    {
+        static T instance;
+        return instance;
+    }
+
+protected:
+    Singleton() {} 
+    virtual ~Singleton() {}
+
+private:
+    void operator=(const Singleton& obj) {} 
+    Singleton(const Singleton &obj) {} 
+};
+
+class FileManager : public Singleton<FileManager>
+{
+public:
+    friend class Singleton<FileManager>; 
+
+public:
+    bool FileExists(const char* strName) const;
+    File* OpenFile(const char* strName, eFileOpenMode mode);
+    bool CloseFile(File* pFile);
+
+protected:
+    FileManager(); 
+    virtual ~FileManager();
+};
+
+```
+
 
 ### 事例２
 * サンプルケース
@@ -409,9 +450,9 @@ classDiagram
 
 ### その他（注意事項など，なんでも）
 * インスタンスの状態を保持したり，クラス間で共通のメソッド，プロパティにアクセスしたい場合に用いる事が多い．
-
+* 単純にコンストラクタとデストラクタをprivateにして、getInstanceでインスタンスを返すだけの場合、スレッドセーフでないという問題がある。
 <br><br><br>
-## *Adapterパターン*
+## *Adapterパターン
 ### 概要
 * 既存のインターフェースを、クライアントが望むインターフェースと互換性を持たせるために変換するパターン。継承を用いる場合と委譲を用いる場合の2種類がある。
 
