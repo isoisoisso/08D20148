@@ -369,10 +369,10 @@ classDiagram
     class ConcreteProduct2{
         
     }
-    ConcreteFactory -- ConcreteProductA : creates▶
-    ConcreteFactory -- ConcreteProductB : creates▶
-    AbstractFactory -- AbstractProductA : creates▶
-    AbstractFactory -- AbstractProductB : creates▶
+    ConcreteFactory -- ConcreteProduct1 : creates▶
+    ConcreteFactory -- ConcreteProduct2 : creates▶
+    AbstractFactory -- AbstractProduct1 : creates▶
+    AbstractFactory -- AbstractProduct2 : creates▶
     AbstractFactory <|-- ConcreteFactory : implements
     AbstractProduct1 <|-- ConcreteProduct1 : implements
     AbstractProduct2 <|-- ConcreteProduct2 : implements
