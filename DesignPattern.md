@@ -382,6 +382,58 @@ classDiagram
 * サンプルケース
 
 * サンプルコード
+```
+@startuml
+class AbstructCarFactory
+class AbstructCar
+class AbstructTire
+class AbstructHandle
+class AbstructDoor
+class Client
+class CarFactory1
+class CarFactory2
+class Tire1
+class Tire2
+class Door1
+class Door2
+class Handle1
+class Handle2
+
+AbstructCar : AbstructTire Tire
+AbstructCar : AbstructDoor Door
+AbstructCar : AbstructHandle Handle
+
+AbstructCarFactory <|-- CarFactory1
+AbstructCarFactory <|-- CarFactory2
+AbstructTire <|-- Tire1
+AbstructTire <|-- Tire2
+AbstructDoor <|-- Door1
+AbstructDoor <|-- Door2
+AbstructHandle <|-- Handle1
+AbstructHandle <|-- Handle2
+
+CarFactory1 --> Tire1 :create
+CarFactory1 --> Handle1 :create
+CarFactory1 --> Door1 :create
+CarFactory2 --> Tire2 :create
+CarFactory2 --> Handle2 :create
+CarFactory2 --> Door2 :create
+Client --> AbstructCarFactory : use
+AbstructCar *-- AbstructTire
+AbstructCar *-- AbstructHandle
+AbstructCar *-- AbstructDoor
+
+AbstructCarFactory : AbstructCar MakeCar()
+AbstructCarFactory : AbstructTire MakeTire()
+AbstructCarFactory : AbstructHandle MakeHandle()
+AbstructCarFactory : AbstructDoor MakeDoor()
+
+
+
+
+Client : Car CreateCar(CarFactory)
+@enduml
+```
 
 ### 事例２
 * サンプルケース
