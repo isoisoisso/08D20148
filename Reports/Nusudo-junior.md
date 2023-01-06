@@ -13,14 +13,14 @@ Originatorの内部情報を保持するクラス．
 ### Caretakerクラス
 Mementoを保持するクラス．Mementoを保持するタイミング，アンドゥするタイミングも保持する．
 
-## クラス図
+### クラス図
 ```mermaid
 
 classDiagram
   class Originator{
     - state
     + createMemento() : Memento //Mementoオブジェクトを生成し返す
-    + SetMemento(Memento) : void //引数のMementoのstateを、属性stateにセット
+    + RestoreMemento(Memento) : void //引数のMementoのstateにレストア
   }
 
   class Memento{
@@ -34,6 +34,38 @@ classDiagram
 Originator --> Memento : creates
 CareTaker o--> Memento
 CareTaker --> Originator : request
+```
+## 動作
+### 状態の保存
+1. CareTakerからOriginatorに`createMemento()`を実行するようリクエストする．
+1. OriginatorはMementoを作成し，そのMementoの`SetState()`を実行してMementoに状態を保存する．
+1. OriginatorはCareTakerに作成したMementoを返す．これをCareTakerの`mementoList`に格納する．
+
+### 状態の復元
+1. CareTakerからOriginatorに`RestoreMemento(Memento)`を実行するようリクエストする．
+1. Originatorは現在の状態から`RestoreMemento(Memento)`の引数に指定されたMementoの状態へ復元する．
+Mementoの情報は`GetState()`を通して取得する．
+
+### シーケンス図
+```mermaid
+sequenceDiagram
+  activate CareTaker
+  CareTaker ->> Originator: createMemento()
+  activate Originator
+  Note left of CareTaker:Save state
+  Originator ->> Memento: new
+  Originator ->> Memento: setState()
+  activate Memento
+  deactivate Memento
+  Originator -->> CareTaker: return memento
+  deactivate Originator
+  activate Originator
+  CareTaker ->>+ Originator: RestoreMemento(Memento)
+  Note left of CareTaker:Restore state
+  Originator ->> Memento: GetState()
+  activate Memento
+  deactivate Memento
+  deactivate Originator
 ```
 
 ## 長所及び短所

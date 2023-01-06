@@ -364,10 +364,10 @@ classDiagram
       <<abstract>>
     }
     class ConcreteProduct1{
-        
+
     }
     class ConcreteProduct2{
-        
+
     }
     ConcreteFactory -- ConcreteProduct1 : creates▶
     ConcreteFactory -- ConcreteProduct2 : creates▶
@@ -397,6 +397,15 @@ classDiagram
 
 * 概略図
 
+```mermaid
+classDiagram
+　　class Singleton{
+         -Singleton
+         -Singleton()
+         +getInstance()
+　　}
+```
+
 ### 事例１
 * サンプルケース
 
@@ -417,18 +426,18 @@ public:
     }
 
 protected:
-    Singleton() {} 
+    Singleton() {}
     virtual ~Singleton() {}
 
 private:
-    void operator=(const Singleton& obj) {} 
-    Singleton(const Singleton &obj) {} 
+    void operator=(const Singleton& obj) {}
+    Singleton(const Singleton &obj) {}
 };
 
 class FileManager : public Singleton<FileManager>
 {
 public:
-    friend class Singleton<FileManager>; 
+    friend class Singleton<FileManager>;
 
 public:
     bool FileExists(const char* strName) const;
@@ -436,7 +445,7 @@ public:
     bool CloseFile(File* pFile);
 
 protected:
-    FileManager(); 
+    FileManager();
     virtual ~FileManager();
 };
 
@@ -457,6 +466,58 @@ protected:
 * 既存のインターフェースを、クライアントが望むインターフェースと互換性を持たせるために変換するパターン。継承を用いる場合と委譲を用いる場合の2種類がある。
 
 * 概略図
+
+- 継承(is a 関係)を利用した方法
+```mermaid
+classDiagram
+     class Client{
+
+     }
+     class Target{
+          <<interface>>
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adapter{
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adaptee{
+          methodA()
+          methodB()
+          methodC()
+     }
+     Client --> Adapter : Creates▶
+     Client --> Target : Uses▶
+     Adapter ..|> Target : implements▶
+     Adapter --|> Adaptee : extends▶
+```
+
+- 委譲(has a 関係)を利用した方法
+```mermaid
+classDiagram
+     class Client{
+
+     }
+     class Target{
+          <<interface>>
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adapter{
+          targetMethod1()
+          targetMethod2()
+     }
+     class Adaptee{
+          methodA()
+          methodB()
+          methodC()
+     }
+     Client --> Adapter : Creates▶
+     Client --> Target : Uses▶
+     Adapter --|> Target : extends▶
+     Adapter *--|> Adaptee : has▶
+```
 
 ### 事例１
 * サンプルケース
@@ -479,6 +540,35 @@ print
 
 * 概略図
 
+```mermaid
+classDiagram
+　　class Client{
+
+　　}
+    class Facade{
+
+    }
+    class A{
+
+    }
+    class B{
+
+    }
+    class C{
+
+    }
+    class D{
+
+    }
+    Client --> Facade: Uses▶
+    Facade -- A
+    Facade -- B
+    A -- C
+    A -- D
+    B -- C
+    C -- D
+```
+
 ### 事例１
 * サンプルケース
 
@@ -498,12 +588,115 @@ print
 * スーパークラスで処理手順の枠組みを決める．その手順で利用するメソッドを抽象メソッドで定義し，サブクラスで具体的な処理を実装する．
 
 * 概略図
+```mermaid
+classDiagram
+    class ConcreteClass{
+      primitiveOperation1()
+      primitiveOperation2()
+    }
+    class AbstractClass{
+      <<abstract>>
+      templateMethod()
+      primitiveOperation1()
+      primitiveOperation2()
+    }
+    AbstractClass <|-- ConcreteClass
+```
 
 ### 事例１
 * サンプルケース
 
+文字・文字列を5回繰り返し表示するケース。
+さらに、単語は"*"で、文字列は枠線で囲って表示する。
+
 * サンプルコード
 
+このサンプルケースをPythonで実行する場合のサンプルコードをいかに示す。
+
+・templatemethod/display.py
+```python
+#AbstractClass
+from abc import ABCMeta, abstractmethod
+
+class AbstractDisplay(metaclass=ABCMeta):
+    @abstractmethod
+    def print(self):
+        pass
+
+    @abstractmethod
+    def open(self):
+        pass
+
+    @abstractmethod
+    def close(self):
+        pass
+
+    def display(self):
+        self.open()
+        for _ in range(5):
+            self.print()
+        self.close()
+
+#ConcreteClass        
+class CharDisplay(AbstractDisplay):
+    def __init__(self, ch):
+        self.__ch = ch
+
+    def open(self):
+        print('*', end='')
+
+    def print(self):
+        print(self.__ch, end='')
+
+    def close(self):
+        print('*')
+
+class StringDisplay(AbstractDisplay):
+    def __init__(self, string):
+        self.__string = string
+        self.__width = len(string)
+
+    def open(self):
+        self.__printLine()
+
+    def print(self):
+        print("|{0}|".format(self.__string))
+
+    def close(self):
+        self.__printLine()
+
+    def __printLine(self):
+        print('+', end='')
+        for _ in range(self.__width):
+            print('-', end='')
+        print('+')
+```
+・main.py
+```python
+from templatemethod.display import CharDisplay, StringDisplay
+
+def startMain():
+    c = CharDisplay('X')
+    s = StringDisplay("Template Method")
+    c.display()
+    print("")
+    s.display()
+
+if __name__ == '__main__':
+    startMain()
+```
+* 出力結果
+```python
+*XXXXX*
+
++---------------+
+|Template Method|
+|Template Method|
+|Template Method|
+|Template Method|
+|Template Method|
++---------------+
+```
 ### 事例２
 * サンプルケース
 
@@ -518,7 +711,32 @@ print
 * 内部実装を公開せずに，コンテナオブジェクトの要素１つ１つに，順次アクセスする方法を提供する
 
 * 概略図
-
+```mermaid
+classDiagram
+    class Aggregate{
+        <<interface>>
+        iterator()
+    }
+    class Iterator{
+        <<interface>>
+        hasNext()
+        next()
+    }
+    class ConcreteIterator{
+        aggregate
+        hasNext()
+        next()
+    }
+    class ConcreteAggregate{
+        iterator()
+    }
+    direction LR
+    Aggregate --|> Iterator : creates
+    Iterator <|-- ConcreteIterator
+    ConcreteAggregate --o ConcreteIterator
+    ConcreteAggregate --|> ConcreteIterator : creates
+    ConcreteAggregate --|> Aggregate
+```
 ### 事例１
 * サンプルケース
 
@@ -553,7 +771,7 @@ classDiagram
       <<abstract>>
       operation()
     }
-    
+
     Component <|-- Composite : implements
     Component <|-- Leaf : implements
     Composite <|-- Component : genelization
