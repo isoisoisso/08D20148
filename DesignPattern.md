@@ -397,10 +397,12 @@ AbstructCarFactoryクラスは車の構成要素を生成するもので、タ�
 ClientクラスはAbstructCarFactoryクラスを使用することで、具象クラスを知らずに車の構成部品を生成できる。
 車の部品を別の部品に変更したい(例えばタイヤをTire1からTire2クラスへ変更したい)場合はクライアントの使うCarFactoryクラスを別のCarFactoryクラスに変更すればよく、コードの変更を最小限に抑えられる。
 * サンプルコード
+- クラス図は以下のようになった。このクラス図はplantUMLを使用して作成している。
+![](./DesignPattern.md_%E7%94%BB%E5%83%8F/AbstructFactoryExample1.png)
 ```
 @startuml
 class AbstructCarFactory
-class AbstructCar
+class Car
 class AbstructTire
 class AbstructHandle
 class AbstructDoor
@@ -414,9 +416,9 @@ class Door2
 class Handle1
 class Handle2
 
-AbstructCar : AbstructTire Tire
-AbstructCar : AbstructDoor Door
-AbstructCar : AbstructHandle Handle
+Car : AbstructTire Tire
+Car : AbstructDoor Door
+Car : AbstructHandle Handle
 
 AbstructCarFactory <|-- CarFactory1
 AbstructCarFactory <|-- CarFactory2
@@ -427,25 +429,103 @@ AbstructDoor <|-- Door2
 AbstructHandle <|-- Handle1
 AbstructHandle <|-- Handle2
 
+
 CarFactory1 --> Tire1 :create
 CarFactory1 --> Handle1 :create
 CarFactory1 --> Door1 :create
 CarFactory2 --> Tire2 :create
 CarFactory2 --> Handle2 :create
 CarFactory2 --> Door2 :create
-Client --> AbstructCarFactory : use
-AbstructCar *-- AbstructTire
-AbstructCar *-- AbstructHandle
-AbstructCar *-- AbstructDoor
 
-AbstructCarFactory : AbstructCar MakeCar()
+Client --> AbstructCarFactory : use
+Car *-- AbstructTire
+Car *-- AbstructHandle
+Car *-- AbstructDoor
+
+AbstructCarFactory : Car MakeCar()
 AbstructCarFactory : AbstructTire MakeTire()
 AbstructCarFactory : AbstructHandle MakeHandle()
 AbstructCarFactory : AbstructDoor MakeDoor()
 
-
-Client : AbstructCar CreateCar(CarFactory)
+Client : void CreateCar(CarFactory)
 @enduml
+```
+
+- 実際のコードをC#で記述すると以下のようになる。
+CarFactory1クラスは具象クラスとしてTire1, Door1, Handle1を、CarFactory2クラスは具象クラスとしてTire2, Door2, Handle2をそれぞれ生成する。
+```
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var client = new Client();
+            var factory = new CarFactory1();    // 車の部品を変更したいときはここを別のクラスに変える
+            //var factory = new CarFactory2();
+            client.CreateCar(factory);  // 車作成
+        }
+    }
+
+    abstract class AbstructCarFactory 
+    {
+        public abstract AbstructCar CreateCar();
+        public abstract AbstructTire CreateTire();
+        public abstract AbstructHandle CreateHandle();
+        public abstract AbstructDoor CreateDoor();
+    }
+    class Client 
+    {
+        private AbstructCar _car;
+        public void CreateCar(AbstructCarFactory factory)
+        {
+            _car = factory.CreateCar();
+            _car.BackDoor = factory.CreateDoor();
+            _car.FrontDoor = factory.CreateDoor();
+            _car.Handle = factory.CreateHandle();
+            _car.Tire = factory.CreateTire();
+        }
+    }
+    class CarFactory1 : AbstructCarFactory
+    {
+        public override AbstructCar CreateCar() => new Car1();
+        public override AbstructTire CreateTire() => new Tire1();
+        public override AbstructHandle CreateHandle() => new Handle1();
+        public override AbstructDoor CreateDoor() => new Door1();
+    }
+    class CarFactory2 : AbstructCarFactory
+    {
+        public override AbstructCar CreateCar() => new Car2();
+        public override AbstructTire CreateTire() => new Tire2();
+        public override AbstructHandle CreateHandle() => new Handle2();
+        public override AbstructDoor CreateDoor() => new Door2();
+    }
+
+    abstract class AbstructCar
+    {
+        public AbstructDoor FrontDoor { get; set; }
+        public AbstructDoor BackDoor { get; set; }
+        public AbstructHandle Handle { get; set; }
+        public AbstructTire Tire { get; set; }
+    }
+    abstract class AbstructTire
+    { }
+    abstract class AbstructHandle
+    { }
+    abstract class AbstructDoor
+    { }
+    class Tire1 : AbstructTire
+    { }
+    class Tire2 : AbstructTire
+    { }
+    class Door1 : AbstructDoor
+    { }
+    class Door2 : AbstructDoor
+    { }
+    class Handle1 : AbstructHandle
+    { }
+    class Handle2 : AbstructHandle
+    { }
+    class Car1 : AbstructCar { }
+    class Car2 : AbstructCar { }
 ```
 
 ### 事例２
