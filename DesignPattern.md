@@ -711,7 +711,33 @@ if __name__ == '__main__':
 * 内部実装を公開せずに，コンテナオブジェクトの要素１つ１つに，順次アクセスする方法を提供する
 
 * 概略図
+```mermaid
 
+classDiagram
+    class Aggregate{
+        <<interface>>
+        iterator()
+    }
+    class Iterator{
+        <<interface>>
+        hasNext()
+        next()
+    }
+    class ConcreteIterator{
+        aggregate
+        hasNext()
+        next()
+    }
+    class ConcreteAggregate{
+        iterator()
+    }
+    direction LR
+    Aggregate --|> Iterator : creates
+    Iterator <|-- ConcreteIterator
+    ConcreteAggregate --o ConcreteIterator
+    ConcreteAggregate --|> ConcreteIterator : creates
+    ConcreteAggregate --|> Aggregate
+```
 ### 事例１
 * サンプルケース
 
