@@ -712,7 +712,6 @@ if __name__ == '__main__':
 
 * 概略図
 ```mermaid
-
 classDiagram
     class Aggregate{
         <<interface>>
